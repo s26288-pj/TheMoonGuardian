@@ -17,6 +17,8 @@ add_executable(${PROJECT_NAME} "Source Files/main.cpp"
         "Header Files/GameManager.h"
         "Source Files/GameManager.cpp"
         "Source Files/GameManager.cpp"
+        "Header Files/Timer.h"
+        "Source Files/Timer.cpp"
 )
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIB_DIR}/SDL2.lib ${SDL2_LIB_DIR}/SDL2main.lib)
 

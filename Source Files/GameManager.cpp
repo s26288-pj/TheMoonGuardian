@@ -18,6 +18,7 @@ void GameManager::Release() {
     sGameManager = NULL;
 }
 
+// Constructor
 GameManager::GameManager() {
 
     mQuit = false;
@@ -27,25 +28,41 @@ GameManager::GameManager() {
     // If something with Graphics initialization goes wrong we can exit the main loop by setting mQuit to true
     if(!Graphics::Initialized())
         mQuit = true;
+
+    mTimer = Timer::Instance();
 }
 
+// Deconstructor
 GameManager::~GameManager() {
 
     Graphics::Release();
     mGraphics = NULL;
+
+    Timer::Release();
+    mTimer = NULL;
 }
 
 void GameManager::Run() {
 
     while(!mQuit) {
 
+        mTimer->Update();
+
         while(SDL_PollEvent(&mEvent) != 0) {
 
             if(mEvent.type == SDL_QUIT) {
                 mQuit = true;
             }
+        }
 
-            mGraphics -> Render();
+        // This allows us to limit frame rate of the window to value assigned in GameManager.h
+        if(mTimer->DeltaTime() >= (1.0f / FRAME_RATE)) {
+
+            printf("DeltaTime: %F\n", mTimer->DeltaTime());
+
+            mGraphics->Render();
+
+            mTimer->Reset();
         }
     }
 }
