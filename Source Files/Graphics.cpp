@@ -39,6 +39,10 @@ Graphics::~Graphics() {
     SDL_DestroyWindow(mWindow);
     mWindow = NULL;
 
+    SDL_DestroyRenderer(mRenderer);
+    mRenderer = NULL;
+
+    IMG_Quit();
     SDL_Quit();
 }
 
@@ -66,12 +70,64 @@ bool Graphics::Init() {
         return false;
     }
 
+    mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
+    // Catch renderer creation errors and print them out in console
+    if(mRenderer == NULL) {
+
+        printf("Renderer creation error: %s\n", SDL_GetError());
+        return false;
+    }
+
+    SDL_SetRenderDrawColor(mRenderer, 0xff, 0xff, 0xff, 0xff);
+
+    int flags = IMG_INIT_PNG;
+    // Catch image initialization errors
+    if(!(IMG_Init(flags) & flags)) {
+
+        printf("Image initialization error: %s\n", SDL_GetError());
+        return false;
+    }
+
     mBackBuffer = SDL_GetWindowSurface(mWindow);
 
     return true;
 }
 
+SDL_Texture* Graphics::LoadTexture(std::string path) {
+
+    SDL_Texture* texture = NULL;
+
+    SDL_Surface* surface = IMG_Load(path.c_str());
+    // Catch image load errors
+    if(surface == NULL) {
+
+        printf("Image load error: %s\n", path.c_str(), SDL_GetError());
+        return texture;
+    }
+
+    texture = SDL_CreateTextureFromSurface(mRenderer, surface);
+    // Catch texture creation errors
+    if(texture == NULL) {
+
+        printf("Create texture error: %s\n", SDL_GetError());
+        return texture;
+    }
+
+    SDL_FreeSurface(surface);
+    return texture;
+}
+
+void Graphics::ClearBackBuffer() {
+
+    SDL_RenderClear(mRenderer);
+}
+
+void Graphics::DrawTexture(SDL_Texture* texture) {
+
+    SDL_RenderCopy(mRenderer, texture, NULL, NULL);
+}
+
 void Graphics::Render() {
 
-    SDL_UpdateWindowSurface(mWindow);
+    SDL_RenderPresent(mRenderer);
 }

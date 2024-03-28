@@ -3,6 +3,8 @@
 
 #include "Graphics.h"
 #include "Timer.h"
+#include "GameEntity.h"
+#include "Texture.h"
 
 class GameManager {
 
@@ -18,6 +20,8 @@ private:
     Timer* mTimer;
 
     SDL_Event mEvent;
+
+    Texture* mTexture;
 
 public:
 

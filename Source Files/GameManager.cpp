@@ -30,6 +30,10 @@ GameManager::GameManager() {
         mQuit = true;
 
     mTimer = Timer::Instance();
+
+    std::string path = SDL_GetBasePath();
+    path.append("../Assets/player.png");
+    mTexture = new Texture(path);
 }
 
 // Deconstructor
@@ -40,6 +44,9 @@ GameManager::~GameManager() {
 
     Timer::Release();
     mTimer = NULL;
+
+    delete mTexture;
+    mTexture = NULL;
 }
 
 void GameManager::Run() {
@@ -58,7 +65,10 @@ void GameManager::Run() {
         // This allows us to limit frame rate of the window to value assigned in GameManager.h
         if(mTimer->DeltaTime() >= (1.0f / FRAME_RATE)) {
 
-            printf("DeltaTime: %F\n", mTimer->DeltaTime());
+            mGraphics->ClearBackBuffer();
+
+            // Draw calls here
+            mTexture->Render();
 
             mGraphics->Render();
 
