@@ -31,6 +31,8 @@ GameManager::GameManager() {
 
     mAssetManager = AssetManager::Instance();
 
+    mInputManager = InputManager::Instance();
+
     mTimer = Timer::Instance();
 
     mTexture = new Texture("player.png", 17, 21, 15, 22);
@@ -45,6 +47,9 @@ GameManager::~GameManager() {
 
     AssetManager::Release();
     mAssetManager = NULL;
+
+    InputManager::Release();
+    mInputManager = NULL;
 
     Timer::Release();
     mTimer = NULL;
@@ -68,6 +73,18 @@ void GameManager::Run() {
 
         // This allows us to limit frame rate of the window to value assigned in GameManager.h
         if(mTimer->DeltaTime() >= (1.0f / FRAME_RATE)) {
+
+            mInputManager->Update();
+
+            if(mInputManager->KeyDown(SDL_SCANCODE_SPACE)) {
+                mTexture->Translate(Vector2(0.0f, -120.0f) * mTimer->DeltaTime());
+            }
+            if(mInputManager->KeyDown(SDL_SCANCODE_LEFT)) {
+                mTexture->Translate(Vector2(-220.0f, 0.0f) * mTimer->DeltaTime());
+            }
+            if(mInputManager->KeyDown(SDL_SCANCODE_RIGHT)) {
+                mTexture->Translate(Vector2(220.0f, 0.0f) * mTimer->DeltaTime());
+            }
 
             mGraphics->ClearBackBuffer();
 

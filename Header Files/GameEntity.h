@@ -36,6 +36,8 @@ public:
     void Parent(GameEntity* parent);
     GameEntity* Parent();
 
+    void Translate(Vector2 vector);
+
     virtual void Update();
     virtual void Render();
 };

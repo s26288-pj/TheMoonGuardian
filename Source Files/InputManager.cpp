@@ -26,9 +26,11 @@ InputManager::~InputManager() {
 }
 
 bool InputManager::KeyDown(SDL_Scancode scancode) {
+
     return mKeyboardStates[scancode];
 }
 
 void InputManager::Update() {
+
     mKeyboardStates = SDL_GetKeyboardState(NULL);
 }

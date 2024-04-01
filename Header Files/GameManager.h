@@ -5,6 +5,8 @@
 #include "Timer.h"
 #include "GameEntity.h"
 #include "Texture.h"
+#include "InputManager.h"
+
 
 class GameManager {
 
@@ -17,6 +19,7 @@ private:
     bool mQuit;
     Graphics* mGraphics;
     AssetManager* mAssetManager;
+    InputManager* mInputManager;
 
     Timer* mTimer;
 
