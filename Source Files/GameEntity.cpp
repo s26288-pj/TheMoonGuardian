@@ -87,3 +87,8 @@ void GameEntity::Update() {
 void GameEntity::Render() {
 
 }
+
+void GameEntity::Translate(Vector2 vector) {
+
+    mPosition += vector;
+}
