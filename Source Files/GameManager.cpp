@@ -29,11 +29,12 @@ GameManager::GameManager() {
     if(!Graphics::Initialized())
         mQuit = true;
 
+    mAssetManager = AssetManager::Instance();
+
     mTimer = Timer::Instance();
 
-    std::string path = SDL_GetBasePath();
-    path.append("../Assets/player.png");
-    mTexture = new Texture(path);
+    mTexture = new Texture("player.png", 17, 21, 15, 22);
+    mTexture->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
 }
 
 // Deconstructor
@@ -41,6 +42,9 @@ GameManager::~GameManager() {
 
     Graphics::Release();
     mGraphics = NULL;
+
+    AssetManager::Release();
+    mAssetManager = NULL;
 
     Timer::Release();
     mTimer = NULL;

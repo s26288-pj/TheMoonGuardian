@@ -16,12 +16,15 @@ private:
 
     bool mQuit;
     Graphics* mGraphics;
+    AssetManager* mAssetManager;
 
     Timer* mTimer;
 
     SDL_Event mEvent;
 
     Texture* mTexture;
+
+
 
 public:
 
