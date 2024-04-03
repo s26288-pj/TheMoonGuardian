@@ -27,7 +27,7 @@ public:
     void Position(Vector2 pos);
     Vector2 Position(SPACE space = world);
 
-    void Rotation(float rotaion);
+    void Rotation(float rotation);
     float Rotation(SPACE space = world);
 
     void Active(bool active);
