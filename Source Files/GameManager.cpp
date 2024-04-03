@@ -37,16 +37,19 @@ GameManager::GameManager() {
 
     mTexture = new AnimatedTexture("player.png", 0, 64, 48, 26, 6, 1.0f, AnimatedTexture::horizontal);
     mTexture->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
+
+    mText = new Texture("Moon Guardian - The Awakening", "RadiantKingdom.ttf", 42, SDL_Color({120, 100, 0}));
+    mText->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.3f));
 }
 
 // Deconstructor
 GameManager::~GameManager() {
 
-    Graphics::Release();
-    mGraphics = NULL;
-
     AssetManager::Release();
     mAssetManager = NULL;
+
+    Graphics::Release();
+    mGraphics = NULL;
 
     InputManager::Release();
     mInputManager = NULL;
@@ -91,6 +94,7 @@ void GameManager::Run() {
             mGraphics->ClearBackBuffer();
 
             // Draw calls here
+            mText->Render();
             mTexture->Render();
 
             mGraphics->Render();

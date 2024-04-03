@@ -35,5 +35,5 @@ target_link_libraries(${PROJECT_NAME} ${SDL2_LIB_DIR}/SDL2.lib ${SDL2_LIB_DIR}/S
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIB_DIR}/SDL2.lib
         ${SDL2_LIB_DIR}/SDL2main.lib ${SDL2_IMAGE_LIB_DIR}/SDL2_image.lib)
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIB_DIR}/SDL2.lib
-        ${SDL2_LIB_DIR}/SDL2main.lib ${SDL2_IMAGE_LIB_DIR}/SDL2_ttf.lib)
+        ${SDL2_LIB_DIR}/SDL2main.lib ${SDL2_TTF_LIB_DIR}/SDL2_ttf.lib)
 
