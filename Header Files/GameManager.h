@@ -4,7 +4,7 @@
 #include "Graphics.h"
 #include "Timer.h"
 #include "GameEntity.h"
-#include "Texture.h"
+#include "AnimatedTexture.h"
 #include "InputManager.h"
 
 
@@ -25,7 +25,7 @@ private:
 
     SDL_Event mEvent;
 
-    Texture* mTexture;
+    AnimatedTexture* mTexture;
 
 
 

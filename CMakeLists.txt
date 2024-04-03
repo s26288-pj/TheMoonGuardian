@@ -7,9 +7,12 @@ set(SDL2_INCLUDE_DIR D:/WORK/SDL2-2.30.1/include)
 set(SDL2_LIB_DIR D:/WORK/SDL2-2.30.1/lib/x64)
 set(SDL2_IMAGE_INCLUDE_DIR D:/WORK/SDL2_image-2.8.2/include)
 set(SDL2_IMAGE_LIB_DIR D:/WORK/SDL2_image-2.8.2/lib/x64)
+set(SDL2_TTF_INCLUDE_DIR D:/WORK/SDL2_ttf-2.22.0/include)
+set(SDL2_TTF_LIB_DIR D:/WORK/SDL2_ttf-2.22.0/lib/x64)
 
 include_directories(${SDL2_INCLUDE_DIR})
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+include_directories(${SDL2_TTF_INCLUDE_DIR})
 add_executable(${PROJECT_NAME} "Source Files/main.cpp"
         "Header Files/Player.h"
         "Header Files/InputManager.h"
@@ -26,8 +29,11 @@ add_executable(${PROJECT_NAME} "Source Files/main.cpp"
         "Header Files/Texture.h"
         "Source Files/Texture.cpp"
         "Source Files/AssetManager.cpp"
+        "Source Files/AnimatedTexture.cpp"
 )
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIB_DIR}/SDL2.lib ${SDL2_LIB_DIR}/SDL2main.lib)
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIB_DIR}/SDL2.lib
         ${SDL2_LIB_DIR}/SDL2main.lib ${SDL2_IMAGE_LIB_DIR}/SDL2_image.lib)
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIB_DIR}/SDL2.lib
+        ${SDL2_LIB_DIR}/SDL2main.lib ${SDL2_IMAGE_LIB_DIR}/SDL2_ttf.lib)
 

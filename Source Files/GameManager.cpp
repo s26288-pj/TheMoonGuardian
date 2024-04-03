@@ -35,7 +35,7 @@ GameManager::GameManager() {
 
     mTimer = Timer::Instance();
 
-    mTexture = new Texture("player.png", 17, 21, 15, 22);
+    mTexture = new AnimatedTexture("player.png", 0, 64, 48, 26, 6, 1.0f, AnimatedTexture::horizontal);
     mTexture->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
 }
 
@@ -85,6 +85,8 @@ void GameManager::Run() {
             if(mInputManager->KeyDown(SDL_SCANCODE_RIGHT)) {
                 mTexture->Translate(Vector2(220.0f, 0.0f) * mTimer->DeltaTime());
             }
+
+            mTexture->Update();
 
             mGraphics->ClearBackBuffer();
 
