@@ -42,6 +42,7 @@ Graphics::~Graphics() {
     SDL_DestroyRenderer(mRenderer);
     mRenderer = NULL;
 
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }
@@ -88,6 +89,12 @@ bool Graphics::Init() {
         return false;
     }
 
+    if(TTF_Init() == -1) {
+
+        printf("TTF Initialization error: %s\n", TTF_GetError());
+        return false;
+    }
+
     mBackBuffer = SDL_GetWindowSurface(mWindow);
 
     return true;
@@ -114,6 +121,29 @@ SDL_Texture* Graphics::LoadTexture(std::string path) {
     }
 
     SDL_FreeSurface(surface);
+    return texture;
+}
+
+SDL_Texture* Graphics::CreateTextTexture(TTF_Font* font, std::string text, SDL_Color color) {
+
+    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    // Catch text render errors
+    if(surface == NULL) {
+
+        printf("Text render error: %s\n", TTF_GetError());
+        return NULL;
+    }
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(mRenderer, surface);
+    // Catch text texture creation errors
+    if(texture == NULL) {
+
+        printf("Text texture creation error: %s\n", SDL_GetError());
+        return NULL;
+    }
+
+    SDL_FreeSurface(surface);
+
     return texture;
 }
 

@@ -27,7 +27,7 @@ private:
 
     AnimatedTexture* mTexture;
 
-
+    Texture* mText;
 
 public:
 
