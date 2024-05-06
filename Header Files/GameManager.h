@@ -42,6 +42,11 @@ private:
     GameManager();
     // Deconstructor
     ~GameManager();
+
+    void EarlyUpdate();
+    void Update();
+    void LateUpdate();
+    void Render();
 };
 
 #endif

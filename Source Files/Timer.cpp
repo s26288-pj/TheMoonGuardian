@@ -22,6 +22,8 @@ void Timer::Release() {
 Timer::Timer() {
 
     Reset();
+    mElapsedTicks = 0;
+    mDeltaTime = 0.0f;
     mTimeScale = 1.0f;
 }
 
@@ -33,8 +35,6 @@ Timer::~Timer() {
 void Timer::Reset() {
 
     mStartTicks = SDL_GetTicks();
-    mElapsedTicks = 0;
-    mDeltaTime = 0.0f;
 }
 
 float Timer::DeltaTime() {

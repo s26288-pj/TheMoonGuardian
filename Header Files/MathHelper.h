@@ -73,4 +73,8 @@ inline Vector2 RotateVector(Vector2& vec, float angle) {
                    (float)(vec.x * sin(radAngle) - vec.y * cos(radAngle)));
 }
 
+const Vector2 vec2_zero = {0.0f, 0.0f};
+const Vector2 vec2_one = {1.0f, 1.0f};
+const Vector2 vec2_up = {0.0f, 1.0f};
+const Vector2 vec2_right = {1.0f, 0.0f};
 #endif
