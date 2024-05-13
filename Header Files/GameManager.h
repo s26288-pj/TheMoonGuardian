@@ -6,6 +6,7 @@
 #include "GameEntity.h"
 #include "AnimatedTexture.h"
 #include "InputManager.h"
+#include "StartScreen.h"
 
 
 class GameManager {
@@ -25,9 +26,7 @@ private:
 
     SDL_Event mEvent;
 
-    AnimatedTexture* mTexture;
-
-    Texture* mText;
+    StartScreen* mStartScreen;
 
 public:
 
@@ -42,6 +41,11 @@ private:
     GameManager();
     // Deconstructor
     ~GameManager();
+
+    void EarlyUpdate();
+    void Update();
+    void LateUpdate();
+    void Render();
 };
 
 #endif

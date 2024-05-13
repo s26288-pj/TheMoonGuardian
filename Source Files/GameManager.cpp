@@ -35,11 +35,8 @@ GameManager::GameManager() {
 
     mTimer = Timer::Instance();
 
-    mTexture = new AnimatedTexture("player.png", 0, 64, 48, 26, 6, 1.0f, AnimatedTexture::horizontal);
-    mTexture->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
+    mStartScreen = new StartScreen();
 
-    mText = new Texture("Moon Guardian - The Awakening", "RadiantKingdom.ttf", 42, SDL_Color({120, 100, 0}));
-    mText->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.3f));
 }
 
 // Deconstructor
@@ -57,8 +54,52 @@ GameManager::~GameManager() {
     Timer::Release();
     mTimer = NULL;
 
-    delete mTexture;
-    mTexture = NULL;
+    delete mStartScreen;
+    mStartScreen = NULL;
+}
+
+void GameManager::EarlyUpdate() {
+
+    mTimer->Reset();
+    mInputManager->Update();
+}
+
+void GameManager::Update() {
+
+    mStartScreen->Update();
+
+//    if(mInputManager->KeyPressed(SDL_SCANCODE_SPACE)) {
+//        printf("Space pressed\n");
+//        mTexture->Translate(Vector2(0.0f, -120.0f) * mTimer->DeltaTime());
+//    }
+//    if(mInputManager->KeyDown(SDL_SCANCODE_LEFT)) {
+//        printf("Left arrow pressed\n");
+//        mTexture->Translate(Vector2(-220.0f, 0.0f) * mTimer->DeltaTime());
+//    }
+//    if(mInputManager->KeyDown(SDL_SCANCODE_RIGHT)) {
+//        printf("Right arrow pressed\n");
+//        mTexture->Translate(Vector2(220.0f, 0.0f) * mTimer->DeltaTime());
+//    }
+//    if(mInputManager->MouseButtonPressed(InputManager::left)) {
+//        printf("left mouse button pressed\n");
+//    }
+
+//    mTexture->Update();
+}
+
+void GameManager::Render() {
+
+    mGraphics->ClearBackBuffer();
+
+    // Draw calls here
+    mStartScreen->Render();
+
+    mGraphics->Render();
+}
+
+void GameManager::LateUpdate() {
+
+    mInputManager->UpdatePreviousInput();
 }
 
 void GameManager::Run() {
@@ -77,29 +118,23 @@ void GameManager::Run() {
         // This allows us to limit frame rate of the window to value assigned in GameManager.h
         if(mTimer->DeltaTime() >= (1.0f / FRAME_RATE)) {
 
-            mInputManager->Update();
+//            mInputManager->Update();
+//
+//            if(mInputManager->KeyDown(SDL_SCANCODE_SPACE)) {
+//                mTexture->Translate(Vector2(0.0f, -120.0f) * mTimer->DeltaTime());
+//            }
+//            if(mInputManager->KeyDown(SDL_SCANCODE_LEFT)) {
+//                mTexture->Translate(Vector2(-220.0f, 0.0f) * mTimer->DeltaTime());
+//            }
+//            if(mInputManager->KeyDown(SDL_SCANCODE_RIGHT)) {
+//                mTexture->Translate(Vector2(220.0f, 0.0f) * mTimer->DeltaTime());
+//            }
 
-            if(mInputManager->KeyDown(SDL_SCANCODE_SPACE)) {
-                mTexture->Translate(Vector2(0.0f, -120.0f) * mTimer->DeltaTime());
-            }
-            if(mInputManager->KeyDown(SDL_SCANCODE_LEFT)) {
-                mTexture->Translate(Vector2(-220.0f, 0.0f) * mTimer->DeltaTime());
-            }
-            if(mInputManager->KeyDown(SDL_SCANCODE_RIGHT)) {
-                mTexture->Translate(Vector2(220.0f, 0.0f) * mTimer->DeltaTime());
-            }
+            EarlyUpdate();
+            Update();
+            LateUpdate();
+            Render();
 
-            mTexture->Update();
-
-            mGraphics->ClearBackBuffer();
-
-            // Draw calls here
-            mText->Render();
-            mTexture->Render();
-
-            mGraphics->Render();
-
-            mTimer->Reset();
         }
     }
 }
