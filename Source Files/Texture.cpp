@@ -55,9 +55,12 @@ Texture::~Texture() {
 void Texture::Render() {
 
     Vector2 position = Position(world);
+    Vector2 scale = Scale(world);
     // This fragment makes sure our position is centered to center of our texture
-    mRenderRect.x = (int)(position.x - mWidth * 0.5f);
-    mRenderRect.y = (int)(position.y - mHeight * 0.5f);
+    mRenderRect.x = (int)(position.x - mWidth * 0.5f * scale.x);
+    mRenderRect.y = (int)(position.y - mHeight * 0.5f * scale.y);
+    mRenderRect.x = (int)(mWidth * scale.x);
+    mRenderRect.y = (int)(mHeight * scale.y);
 
-    mGraphics->DrawTexture(mTexture, (mClipped)? &mClipRect : NULL, &mRenderRect);
+    mGraphics->DrawTexture(mTexture, (mClipped)? &mClipRect : NULL, &mRenderRect, Rotation(world));
 }

@@ -13,6 +13,7 @@ private:
 
     Vector2 mPosition;
     float mRotation;
+    Vector2 mScale;
 
     bool mActive;
     GameEntity* mParent;
@@ -20,7 +21,7 @@ private:
 public:
 
     // Constructor
-    GameEntity(float x = 0.0f, float y = 0.0f);
+    GameEntity(Vector2 position = vec2_zero);
     // Deconstructor
     ~GameEntity();
 
@@ -30,6 +31,9 @@ public:
     void Rotation(float rotation);
     float Rotation(SPACE space = world);
 
+    void Scale(Vector2 scale);
+    Vector2 Scale(SPACE space = world);
+
     void Active(bool active);
     bool Active();
 
@@ -37,6 +41,7 @@ public:
     GameEntity* Parent();
 
     void Translate(Vector2 vector);
+    void Rotate(float rotation_amount);
 
     virtual void Update();
     virtual void Render();
