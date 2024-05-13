@@ -8,6 +8,8 @@ class StartScreen : public GameEntity {
 private:
 
     Texture* mTitle;
+    Texture* mStart;
+    Texture* mExit;
     AnimatedTexture* mPlayer;
 
 

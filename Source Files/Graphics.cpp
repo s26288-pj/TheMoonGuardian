@@ -79,7 +79,8 @@ bool Graphics::Init() {
         return false;
     }
 
-    SDL_SetRenderDrawColor(mRenderer, 0xff, 0xff, 0xff, 0xff);
+    // Setting the renderer's clear color to black
+    SDL_SetRenderDrawColor(mRenderer, 0x00, 0x00, 0x00, 0x00);
 
     int flags = IMG_INIT_PNG;
     // Catch image initialization errors
