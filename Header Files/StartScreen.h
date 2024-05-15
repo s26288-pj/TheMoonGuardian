@@ -1,5 +1,6 @@
 #ifndef _STARTSCREEN_H
 #define _STARTSCREEN_H
+#include <functional>
 #include "AnimatedTexture.h"
 #include "InputManager.h"
 
@@ -7,11 +8,16 @@ class StartScreen : public GameEntity {
 
 private:
 
+    Timer* mTimer;
+    InputManager* mInputManager;
+
+    Texture* mBackgroundTexture;
     Texture* mTitle;
     Texture* mStart;
     Texture* mExit;
-    AnimatedTexture* mPlayer;
+    Texture* mSelector;
 
+    bool mQuitCall;
 
 public:
 
@@ -20,6 +26,8 @@ public:
     //Deconstructor
     ~StartScreen();
 
+    void QuitCallBack(bool b);
+    bool QuitCallback();
     void Update();
     void Render();
 };

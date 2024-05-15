@@ -68,23 +68,6 @@ void GameManager::Update() {
 
     mStartScreen->Update();
 
-//    if(mInputManager->KeyPressed(SDL_SCANCODE_SPACE)) {
-//        printf("Space pressed\n");
-//        mTexture->Translate(Vector2(0.0f, -120.0f) * mTimer->DeltaTime());
-//    }
-//    if(mInputManager->KeyDown(SDL_SCANCODE_LEFT)) {
-//        printf("Left arrow pressed\n");
-//        mTexture->Translate(Vector2(-220.0f, 0.0f) * mTimer->DeltaTime());
-//    }
-//    if(mInputManager->KeyDown(SDL_SCANCODE_RIGHT)) {
-//        printf("Right arrow pressed\n");
-//        mTexture->Translate(Vector2(220.0f, 0.0f) * mTimer->DeltaTime());
-//    }
-//    if(mInputManager->MouseButtonPressed(InputManager::left)) {
-//        printf("left mouse button pressed\n");
-//    }
-
-//    mTexture->Update();
 }
 
 void GameManager::Render() {
@@ -102,11 +85,15 @@ void GameManager::LateUpdate() {
     mInputManager->UpdatePreviousInput();
 }
 
+
 void GameManager::Run() {
 
     while(!mQuit) {
 
         mTimer->Update();
+
+        if(mStartScreen->QuitCallback() == true)
+            mQuit = true;
 
         while(SDL_PollEvent(&mEvent) != 0) {
 
@@ -117,18 +104,6 @@ void GameManager::Run() {
 
         // This allows us to limit frame rate of the window to value assigned in GameManager.h
         if(mTimer->DeltaTime() >= (1.0f / FRAME_RATE)) {
-
-//            mInputManager->Update();
-//
-//            if(mInputManager->KeyDown(SDL_SCANCODE_SPACE)) {
-//                mTexture->Translate(Vector2(0.0f, -120.0f) * mTimer->DeltaTime());
-//            }
-//            if(mInputManager->KeyDown(SDL_SCANCODE_LEFT)) {
-//                mTexture->Translate(Vector2(-220.0f, 0.0f) * mTimer->DeltaTime());
-//            }
-//            if(mInputManager->KeyDown(SDL_SCANCODE_RIGHT)) {
-//                mTexture->Translate(Vector2(220.0f, 0.0f) * mTimer->DeltaTime());
-//            }
 
             EarlyUpdate();
             Update();

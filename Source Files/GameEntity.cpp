@@ -101,7 +101,6 @@ void GameEntity::Parent(GameEntity* parent) {
         mScale = Scale(world);
     }
     else {
-        if(mParent != NULL) Parent(NULL);
 
         Vector2 parentScale = parent->Scale(world);
 

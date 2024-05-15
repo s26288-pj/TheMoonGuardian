@@ -33,6 +33,7 @@ public:
     static GameManager* Instance();
     static void Release();
 
+    void Quit();
     void Run();
 
 private:
@@ -46,6 +47,7 @@ private:
     void Update();
     void LateUpdate();
     void Render();
+
 };
 
 #endif
