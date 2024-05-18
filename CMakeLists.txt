@@ -32,6 +32,13 @@ add_executable(${PROJECT_NAME} "Source Files/main.cpp"
         "Source Files/AnimatedTexture.cpp"
         "Source Files/StartScreen.cpp"
         "Header Files/StartScreen.h"
+        "Source Files/PlayScreen.cpp"
+        "Header Files/PlayScreen.h"
+        "Source Files/ScreenManager.cpp"
+        "Header Files/ScreenManager.h"
+        "Source Files/Sidebar.cpp"
+        "Header Files/Sidebar.h"
+        "Source Files/Player.cpp"
 )
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIB_DIR}/SDL2.lib ${SDL2_LIB_DIR}/SDL2main.lib)
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIB_DIR}/SDL2.lib

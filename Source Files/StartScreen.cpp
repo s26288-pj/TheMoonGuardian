@@ -20,10 +20,6 @@ StartScreen::StartScreen() {
     mExit->Parent(mTitle);
     mExit->Position(Vector2(0, -230));
 
-//    mPlayer = new AnimatedTexture("player.png", 0, 64, 48, 26, 6, 1.0f, AnimatedTexture::horizontal);
-//    mPlayer->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.3f));
-//    mPlayer->Parent(this);
-
     mSelector = new Texture("moon.png");
     mSelector->Parent(mStart);
     mSelector->Position(Vector2(-162.0f, 0.0f));
@@ -49,7 +45,7 @@ StartScreen::~StartScreen() {
 
 }
 
-bool StartScreen::QuitCallback() {
+bool StartScreen::QuitCallBack() {
 
     return mQuitCall;
 }
@@ -59,11 +55,22 @@ void StartScreen::QuitCallBack(bool b) {
     mQuitCall = b;
 }
 
+bool StartScreen::PlayCallBack() {
+
+    return mPlayCallBack;
+}
+
+void StartScreen::PlayCallBack(bool b) {
+
+    mPlayCallBack = b;
+}
+
 void StartScreen::Update() {
 
     mInputManager->Update();
 
     if(mInputManager->KeyDown(SDL_SCANCODE_UP)) {
+        printf("UP");
         if(mStart != NULL)
             mSelector->Parent(mStart);
     }
@@ -77,6 +84,7 @@ void StartScreen::Update() {
         }
         if(mSelector->Parent() == mStart) {
             StartScreen::~StartScreen();
+            PlayCallBack(true);
         }
     }
 }

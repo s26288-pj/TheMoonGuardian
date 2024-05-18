@@ -93,5 +93,6 @@ const Vector2 vec2_zero = {0.0f, 0.0f};
 const Vector2 vec2_one = {1.0f, 1.0f};
 const Vector2 vec2_up = {0.0f, 1.0f};
 const Vector2 vec2_right = {1.0f, 0.0f};
+const Vector2 vec2_left = {-1.0f, 0.0f};
 
 #endif

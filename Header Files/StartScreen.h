@@ -18,6 +18,7 @@ private:
     Texture* mSelector;
 
     bool mQuitCall;
+    bool mPlayCallBack;
 
 public:
 
@@ -26,8 +27,12 @@ public:
     //Deconstructor
     ~StartScreen();
 
+    bool QuitCallBack();
     void QuitCallBack(bool b);
-    bool QuitCallback();
+
+    bool PlayCallBack();
+    void PlayCallBack(bool b);
+
     void Update();
     void Render();
 };
