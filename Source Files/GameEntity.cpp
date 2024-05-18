@@ -1,4 +1,3 @@
-#include <cstdio>
 #include "../Header Files/GameEntity.h"
 
 // Constructor
@@ -94,13 +93,14 @@ bool GameEntity::Active() {
 // Setter of parent to the child object
 void GameEntity::Parent(GameEntity* parent) {
 
+    mPosition = Position(world) - parent->Position(world);
+
     if(parent == NULL) {
         mPosition = Position(world);
         mRotation = Rotation(world);
         mScale = Scale(world);
     }
     else {
-        if(mParent != NULL) Parent(NULL);
 
         Vector2 parentScale = parent->Scale(world);
 
@@ -108,10 +108,11 @@ void GameEntity::Parent(GameEntity* parent) {
         mPosition.x /= parentScale.x;
         mPosition.y /= parentScale.y;
 
-        mRotation -= parent->Rotation(world);
+        mRotation = parent->Rotation(world);
 
         mScale = Vector2(mScale.x / parentScale.x, mScale.y / parentScale.y);
     }
+
     mParent = parent;
 }
 
@@ -119,11 +120,6 @@ void GameEntity::Parent(GameEntity* parent) {
 GameEntity* GameEntity::Parent() {
 
     return mParent;
-}
-
-void GameEntity::Rotate(float rotation_amount) {
-
-    mRotation += rotation_amount;
 }
 
 void GameEntity::Update() {
@@ -135,6 +131,11 @@ void GameEntity::Render() {
 }
 
 void GameEntity::Translate(Vector2 vector) {
-    
+
     mPosition += vector;
+}
+
+void GameEntity::Rotate(float rotation_amount) {
+
+    mRotation += rotation_amount;
 }

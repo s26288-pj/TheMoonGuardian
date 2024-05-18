@@ -38,6 +38,8 @@ public:
     void DrawTexture(SDL_Texture* texture, SDL_Rect* clip = NULL, SDL_Rect* rend = NULL,
                      float angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
+    void SetBackgroundTexture(SDL_Texture* texture);
+
     void Render();
 
 private:

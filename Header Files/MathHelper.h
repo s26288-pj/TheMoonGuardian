@@ -65,7 +65,7 @@ inline Vector2 operator * (const Vector2& lhs, const float& rhs) {
 
 
 // This function allows engine to rotate point by specific angle based on reference position and angle
-inline Vector2 RotateVector(Vector2& vec, float angle) {
+inline Vector2 RotateVector(const Vector2& vec, float angle) {
 
     float radAngle = (float)(angle*DEG_TO_RAD);
 
@@ -73,8 +73,25 @@ inline Vector2 RotateVector(Vector2& vec, float angle) {
                    (float)(vec.x * sin(radAngle) - vec.y * cos(radAngle)));
 }
 
+
+// This function allows to calculate object's position based on time if start and end position is given
+inline Vector2 Lerp(Vector2& start, Vector2& end, float time) {
+    if(time <= 0.0f)
+        return start;
+
+    if(time >= 1.0f)
+        return end;
+
+    Vector2 dir = (end - start).Normalized();
+    float magnitude = (end - start).Magnitude();
+
+    return start + dir * magnitude * time;
+}
+
+
 const Vector2 vec2_zero = {0.0f, 0.0f};
 const Vector2 vec2_one = {1.0f, 1.0f};
 const Vector2 vec2_up = {0.0f, 1.0f};
 const Vector2 vec2_right = {1.0f, 0.0f};
+
 #endif

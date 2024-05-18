@@ -35,11 +35,8 @@ GameManager::GameManager() {
 
     mTimer = Timer::Instance();
 
-    mTexture = new AnimatedTexture("player.png", 0, 64, 48, 26, 6, 1.0f, AnimatedTexture::horizontal);
-    mTexture->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
+    mStartScreen = new StartScreen();
 
-    mText = new Texture("Moon Guardian - The Awakening", "RadiantKingdom.ttf", 42, SDL_Color({120, 100, 0}));
-    mText->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.3f));
 }
 
 // Deconstructor
@@ -57,8 +54,8 @@ GameManager::~GameManager() {
     Timer::Release();
     mTimer = NULL;
 
-    delete mTexture;
-    mTexture = NULL;
+    delete mStartScreen;
+    mStartScreen = NULL;
 }
 
 void GameManager::EarlyUpdate() {
@@ -69,23 +66,8 @@ void GameManager::EarlyUpdate() {
 
 void GameManager::Update() {
 
-    if(mInputManager->KeyPressed(SDL_SCANCODE_SPACE)) {
-        printf("Space pressed\n");
-        mTexture->Translate(Vector2(0.0f, -120.0f) * mTimer->DeltaTime());
-    }
-    if(mInputManager->KeyDown(SDL_SCANCODE_LEFT)) {
-        printf("Left arrow pressed\n");
-        mTexture->Translate(Vector2(-220.0f, 0.0f) * mTimer->DeltaTime());
-    }
-    if(mInputManager->KeyDown(SDL_SCANCODE_RIGHT)) {
-        printf("Right arrow pressed\n");
-        mTexture->Translate(Vector2(220.0f, 0.0f) * mTimer->DeltaTime());
-    }
-    if(mInputManager->MouseButtonPressed(InputManager::left)) {
-        printf("left mouse button pressed\n");
-    }
+    mStartScreen->Update();
 
-    mTexture->Update();
 }
 
 void GameManager::Render() {
@@ -93,8 +75,7 @@ void GameManager::Render() {
     mGraphics->ClearBackBuffer();
 
     // Draw calls here
-    mText->Render();
-    mTexture->Render();
+    mStartScreen->Render();
 
     mGraphics->Render();
 }
@@ -104,11 +85,15 @@ void GameManager::LateUpdate() {
     mInputManager->UpdatePreviousInput();
 }
 
+
 void GameManager::Run() {
 
     while(!mQuit) {
 
         mTimer->Update();
+
+        if(mStartScreen->QuitCallback() == true)
+            mQuit = true;
 
         while(SDL_PollEvent(&mEvent) != 0) {
 
@@ -124,6 +109,7 @@ void GameManager::Run() {
             Update();
             LateUpdate();
             Render();
+
         }
     }
 }
