@@ -80,7 +80,7 @@ bool Graphics::Init() {
     }
 
     // Setting the renderer's clear color to black
-    SDL_SetRenderDrawColor(mRenderer, 0x00, 0x00, 0x00, 0x00);
+    SDL_SetRenderDrawColor(mRenderer, 0xff, 0xff, 0xff, 0x00);
 
     int flags = IMG_INIT_PNG;
     // Catch image initialization errors
@@ -123,6 +123,98 @@ SDL_Texture* Graphics::LoadTexture(std::string path) {
 
     SDL_FreeSurface(surface);
     return texture;
+}
+
+void Graphics::DrawLevelFromBitmap(std::string bitmap_path, std::string tiles_path, int tile_w, int tile_h) {
+
+    SDL_Surface* mBitmap = IMG_Load(bitmap_path.c_str());
+    SDL_Texture* mTiles = Graphics::Instance()->LoadTexture(tiles_path);
+
+    if(mBitmap == NULL) {
+
+        printf("Image load error: %s\n", bitmap_path.c_str(), SDL_GetError());
+    }
+
+    SDL_Rect tileClips[24];
+    for (int row = 0; row < 3; ++row) {
+        for (int col = 0; col < 8; ++col) {
+            int index = row * 8 + col;
+            tileClips[index] = { col * tile_w, row * tile_h, tile_w, tile_h };
+        }
+    }
+
+    for (int y = 0; y < mBitmap->h; ++y) {
+        for (int x = 0; x < mBitmap->w; ++x) {
+            Uint32 pixel = ((Uint32*)mBitmap->pixels)[y * mBitmap->pitch / 4 + x];
+            Uint8 r, g, b;
+            SDL_GetRGB(pixel, mBitmap->format, &r, &g, &b);
+
+            SDL_Rect* tile = &tileClips[19];
+
+            if (r == 0 && g == 0 && b == 0) {
+                SDL_Rect renderQuad = { x * tile_w, y * tile_h, tile_w, tile_h };
+                SDL_RenderCopy(mRenderer, mTiles, tile, &renderQuad);
+            }
+            else {
+                SDL_Rect renderQuad = { x * tile_w, y * tile_h, tile_w, tile_h };
+                SDL_RenderCopy(mRenderer, mTiles, &tileClips[11], &renderQuad);
+            }
+        }
+    }
+}
+
+void Graphics::ScaleBitmap(std::string originalPath, std::string newPath, int scale) {
+    // Load the original bitmap
+    SDL_Surface* originalSurface = IMG_Load(originalPath.c_str());
+    if (originalSurface == nullptr) {
+        printf("Failed to load original bitmap: %s\n", IMG_GetError());
+        return;
+    }
+
+    // Create a new bitmap surface that is scaled
+    SDL_Surface* scaledSurface = SDL_CreateRGBSurface(0, originalSurface->w * scale, originalSurface->h * scale, 32,
+                                                      0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+    if (scaledSurface == nullptr) {
+        printf("Failed to create scaled bitmap surface: %s\n", SDL_GetError());
+        SDL_FreeSurface(originalSurface);
+        return;
+    }
+
+    // Scale the bitmap
+    for (int y = 0; y < originalSurface->h; ++y) {
+        for (int x = 0; x < originalSurface->w; ++x) {
+            Uint32 pixel = ((Uint32*)originalSurface->pixels)[y * originalSurface->pitch / 4 + x];
+            Uint8 r, g, b, a;
+            SDL_GetRGBA(pixel, originalSurface->format, &r, &g, &b, &a);
+            // If the pixel is black (solid), set it to black in the scaled bitmap, otherwise set it to white
+            Uint32 newPixel = (r == 0 && g == 0 && b == 0) ? SDL_MapRGBA(scaledSurface->format, 0, 0, 0, 255) :
+                              SDL_MapRGBA(scaledSurface->format, 255, 255, 255, 255);
+            for (int dy = 0; dy < scale; ++dy) {
+                for (int dx = 0; dx < scale; ++dx) {
+                    ((Uint32*)scaledSurface->pixels)[(y * scale + dy) * scaledSurface->pitch / 4 + (x * scale + dx)] = newPixel;
+                }
+            }
+        }
+    }
+
+    // Save the scaled bitmap
+    if (IMG_SavePNG(scaledSurface, newPath.c_str()) < 0) {
+        printf("Failed to save scaled bitmap: %s\n", IMG_GetError());
+    }
+
+    // Free surfaces
+    SDL_FreeSurface(originalSurface);
+    SDL_FreeSurface(scaledSurface);
+}
+
+SDL_Color Graphics::GetPixelColor(int x, int y) {
+    ScaleBitmap("../Assets/sprites/bitmap.bmp", "../Assets/sprites/bitmap_full.bmp", 16);
+    SDL_Surface* bitmapSurface = IMG_Load("../Assets/sprites/bitmap_full.bmp");
+    Uint32 pixel = ((Uint32*)bitmapSurface->pixels)[(y * bitmapSurface->pitch / 4) + x];
+    SDL_Color color;
+    SDL_GetRGB(pixel, bitmapSurface->format, &color.r, &color.g, &color.b);
+    SDL_FreeSurface(bitmapSurface);
+    return color;
 }
 
 SDL_Texture* Graphics::CreateTextTexture(TTF_Font* font, std::string text, SDL_Color color) {

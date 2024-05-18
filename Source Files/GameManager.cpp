@@ -35,12 +35,15 @@ GameManager::GameManager() {
 
     mTimer = Timer::Instance();
 
-    mStartScreen = new StartScreen();
+    mScreenManager = ScreenManager::Instance();
 
 }
 
 // Deconstructor
 GameManager::~GameManager() {
+
+    ScreenManager::Release();
+    mScreenManager = NULL;
 
     AssetManager::Release();
     mAssetManager = NULL;
@@ -54,8 +57,6 @@ GameManager::~GameManager() {
     Timer::Release();
     mTimer = NULL;
 
-    delete mStartScreen;
-    mStartScreen = NULL;
 }
 
 void GameManager::EarlyUpdate() {
@@ -66,8 +67,7 @@ void GameManager::EarlyUpdate() {
 
 void GameManager::Update() {
 
-    mStartScreen->Update();
-
+    mScreenManager->Update();
 }
 
 void GameManager::Render() {
@@ -75,7 +75,7 @@ void GameManager::Render() {
     mGraphics->ClearBackBuffer();
 
     // Draw calls here
-    mStartScreen->Render();
+    mScreenManager->Render();
 
     mGraphics->Render();
 }
@@ -92,7 +92,7 @@ void GameManager::Run() {
 
         mTimer->Update();
 
-        if(mStartScreen->QuitCallback() == true)
+        if(mScreenManager->QuitTrigger() == true)
             mQuit = true;
 
         while(SDL_PollEvent(&mEvent) != 0) {

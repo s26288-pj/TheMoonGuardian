@@ -6,6 +6,7 @@
 #include <SDL_ttf.h>
 #include <string>
 #include <cstdio>
+#include <vector>
 
 class Graphics {
 
@@ -13,6 +14,8 @@ public:
 
     static const int SCREEN_WIDTH = 1280;
     static const int SCREEN_HEIGHT = 720;
+    static const int TILE_WIDTH = 32;
+    static const int TILE_HEIGHT = 32;
 
 private:
 
@@ -23,6 +26,10 @@ private:
     SDL_Surface* mBackBuffer;
 
     SDL_Renderer* mRenderer;
+
+    SDL_Surface* mBitmap;
+    SDL_Texture* mTiles;
+    std::vector<SDL_Point> mCollisionPoints;
 
 public:
 
@@ -38,7 +45,9 @@ public:
     void DrawTexture(SDL_Texture* texture, SDL_Rect* clip = NULL, SDL_Rect* rend = NULL,
                      float angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-    void SetBackgroundTexture(SDL_Texture* texture);
+    void DrawLevelFromBitmap(std::string bitmap, std::string tiles, int w, int h);
+    SDL_Color GetPixelColor(int x, int y);
+    void ScaleBitmap(std::string originalPath, std::string newPath, int scale);
 
     void Render();
 

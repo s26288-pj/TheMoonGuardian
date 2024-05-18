@@ -6,7 +6,7 @@
 #include "GameEntity.h"
 #include "AnimatedTexture.h"
 #include "InputManager.h"
-#include "StartScreen.h"
+#include "ScreenManager.h"
 
 
 class GameManager {
@@ -26,7 +26,7 @@ private:
 
     SDL_Event mEvent;
 
-    StartScreen* mStartScreen;
+    ScreenManager* mScreenManager;
 
 public:
 
